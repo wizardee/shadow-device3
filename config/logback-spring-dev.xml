@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+
+	<property name="LOG_ROOT" value="/logs" />
+	<property name="LOG_FOLDER" value="tools/shadow-device" />
+	<property name="OMS_LOG_PATH" value="${LOG_ROOT}/omsLog/${LOG_FOLDER}" />
+	<property name="CALL_LOG_PATH" value="${LOG_ROOT}/callLog/${LOG_FOLDER}" />
+	<property name="ERROR_LOG_PATH" value="${LOG_ROOT}/errorLog/${LOG_FOLDER}" />
+	<property name="STD_LOG_PATH" value="${LOG_ROOT}/std/${LOG_FOLDER}" />
+
+	<property name="OMS_LEVEL" value="info" />
+	<property name="CALL_LEVEL" value="info" />
+	<property name="STD_LEVEL" value="info" />
+	<property name="ERROR_LEVEL" value="info" />
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%date{ISO8601}][%-4relative][%thread] %-5level %logger{35} - %msg %n</pattern>
+		</encoder>
+	</appender>
+	  
+	<appender name="STD_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${STD_LOG_PATH}/std.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${STD_LOG_PATH}/%d{yyyy/MM/dd}/std.log.%i</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>    
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%date{ISO8601}][%-4relative][%thread] %-5level %logger{35} - %msg %n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="OMS_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${OMS_LOG_PATH}/oms.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${OMS_LOG_PATH}/%d{yyyy/MM/dd}/oms.log.%i</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>    
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%msg %n</pattern>
+		</encoder>
+	</appender>
+	  
+	<appender name="CALL_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${CALL_LOG_PATH}/call.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${CALL_LOG_PATH}/%d{yyyy/MM/dd}/call.log.%i</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>    
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="net.herit.ami.commons.logger.DefaultLayout"/>
+		</encoder>
+	</appender>
+	
+	<appender name="ERROR_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${ERROR_LOG_PATH}/error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${ERROR_LOG_PATH}/%d{yyyy/MM/dd}/error.log.%i</fileNamePattern>
+			<maxFileSize>10MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="net.herit.ami.commons.logger.DefaultLayout" />
+		</encoder>
+	</appender>
+	
+	<logger name="net.herit.ami.commons.logger.oms.log.OmsLogger" level="${OMS_LEVEL}">
+		<appender-ref ref="OMS_LOG_FILE" />
+	</logger>
+	<logger name="net.herit.ami.commons.logger.call.log.CallLogger" level="${CALL_LEVEL}">
+		<appender-ref ref="CALL_LOG_FILE" />
+	</logger>
+	<logger name="net.herit.ami.commons.logger.error.log.ErrorLogger" level="${ERROR_LEVEL}">
+		<appender-ref ref="ERROR_LOG_FILE" />
+	</logger>
+	<root level="${STD_LEVEL}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="STD_LOG_FILE" />
+	</root>
+
+</configuration>

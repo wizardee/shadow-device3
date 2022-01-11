@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.herit.ami.features.stat.repository.mysql.IotDeviceStatusRealtimeLastStatisticRepository">
+    <select id="selectRealtimeLastStatistics" resultMap="resultLastStat">
+		SELECT
+			STAT_DATE ,
+			START_VALUE ,
+			PREVIOUS_VALUE ,
+			STAT_VALUE
+		FROM
+			IOT_DEVICE_STATUS_REALTIME_LAST_STATISTIC
+		WHERE
+			DEVICE_ID = #{deviceId}
+			AND RESOURCE_URI = #{resourceUri}
+	</select>
+	<resultMap id="resultLastStat" type="net.herit.ami.features.stat.dto.entity.IotDeviceStatusRealtimeLastStatisticEntity">
+        <result property="statDate" column="STAT_DATE" />
+		<result property="startValue" column="START_VALUE" />
+		<result property="previousValue" column="PREVIOUS_VALUE" />
+		<result property="statValue" column="STAT_VALUE" />
+	</resultMap>
+
+	<select id="selectHourLastStatistics" resultMap="resultHourLastStat">
+		SELECT
+			STAT_DATE ,
+			START_VALUE ,
+			PREVIOUS_VALUE ,
+			STAT_VALUE
+		FROM
+			IOT_DEVICE_STATUS_HOUR_LAST_STATISTIC
+		WHERE
+			DEVICE_ID = #{deviceId}
+		  AND RESOURCE_URI = #{resourceUri}
+	</select>
+	<resultMap id="resultHourLastStat" type="net.herit.ami.features.stat.dto.entity.IotDeviceStatusHourLastStatisticEntity">
+		<result property="statDate" column="STAT_DATE" />
+		<result property="startValue" column="START_VALUE" />
+		<result property="previousValue" column="PREVIOUS_VALUE" />
+		<result property="statValue" column="STAT_VALUE" />
+	</resultMap>
+</mapper>

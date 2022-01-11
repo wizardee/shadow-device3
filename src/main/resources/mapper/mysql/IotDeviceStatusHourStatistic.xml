@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.herit.ami.features.stat.repository.mysql.IotDeviceStatusHourStatisticRepository">
+    
+    <insert id="insertHourStatistics" parameterType="java.util.List">
+		INSERT INTO 
+		  IOT_DEVICE_STATUS_HOUR_STATISTIC
+		  (STAT_DATE, DEVICE_ID, RESOURCE_URI, RESOURCE_NAME, STAT_TYPE, START_VALUE, PREVIOUS_VALUE, STAT_VALUE, CREATE_TIME, UPDATE_TIME)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.statDate}, #{item.deviceId}, #{item.resourceUri}, #{item.resourceName},
+			#{item.statType}, #{item.startValue}, #{item.previousValue}, #{item.statValue}, #{item.createTime}, #{item.updateTime})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+			RESOURCE_NAME = VALUES(RESOURCE_NAME), 
+			START_VALUE = VALUES(START_VALUE), 
+			PREVIOUS_VALUE = VALUES(PREVIOUS_VALUE), 
+			STAT_VALUE = VALUES(STAT_VALUE), 
+			UPDATE_TIME = VALUES(UPDATE_TIME)
+	</insert>
+
+</mapper>

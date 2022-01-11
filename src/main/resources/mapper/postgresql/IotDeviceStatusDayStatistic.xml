@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.herit.ami.features.stat.repository.postgresql.IotDeviceStatusDayStatisticRepository">
+
+    <select id="selectDayStatistics" resultType="net.herit.ami.features.stat.dto.entity.IotDeviceStatusDayStatisticEntity">
+        SELECT STAT_DATE, DEVICE_ID, RESOURCE_URI, OBJECT_ID, INSTANCE_ID, RESOURCE_ID, RESOURCE_NAME, STAT_TYPE, START_VALUE, PREVIOUS_VALUE, STAT_VALUE, CREATE_TIME, UPDATE_TIME
+		FROM IOT_DEVICE_STATUS_DAY_STATISTIC 
+		WHERE STAT_DATE >= NOW() - INTERVAL '1 day';
+    </select>
+
+</mapper>

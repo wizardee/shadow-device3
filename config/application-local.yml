@@ -1,0 +1,75 @@
+server:
+    port: 45446
+
+spring:
+  application:
+    name: shadow-device
+  profiles:
+  - local
+  postgresql:
+    datasource:
+      jdbc-url : jdbc:postgresql://10.101.101.208:5432/ami
+      driver-class-name: org.postgresql.Driver
+      username: amiuser
+      password: ami1234
+      type: com.zaxxer.hikari.HikariDataSource
+      pool-name : ami-batch-dbcp-postgresql
+  mysql:
+    datasource:
+      jdbc-url : jdbc:mariadb://210.97.40.115:3306/monitoring?allowMultiQueries=true
+      driver-class-name: org.mariadb.jdbc.Driver
+      username: hevitsvr
+      password: we&there100
+      type: com.zaxxer.hikari.HikariDataSource
+      pool-name: ami-batch-dbcp-mysql
+      
+
+mybatis:
+  mapper-locations:
+  - classpath*:mapper/*.xml
+  - classpath*:mapper/**/*.xml
+  type-aliases-package: 
+    kr.net.herit.rookie.*.*.dto.entity.**
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  config: file:./config/logback-spring-local.xml
+  
+# 참고 사이트
+# http://www.cronmaker.com/;jsessionid=node017wytoozjhr9li45k2xw9epjj329715.node0?0
+quartz:
+  realtime-statistics-property:
+    enable: false
+    schedule: "10 * * * * ?"
+  hour-statistics-property:
+    enable: false
+    schedule: "20 * * * * ?"
+  day-statistics-property:
+    enable: false
+    schedule: "30 * * * * ?"
+  month-statistics-property:
+    enable: false
+    schedule: "40 * * * * ?"
+  shadow-device-property:
+    enable: true
+    schedule: "0/5 * * * * ?"
+
+device-config:
+  jsonpath: ./config/magok-device-config.json
+
+select-stat:
+  realtime-interval-minute: 10
+
+management:        # prometheus, grafana 연동을 위한 설정
+  endpoint:
+    gateway:
+      enable: true
+  endpoints:
+    web:
+      base-path: "/tools/shadow-device/actuator"
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}

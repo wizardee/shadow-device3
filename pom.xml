@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.3</version> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>net.herit</groupId>
+	<artifactId>shadow-device</artifactId>
+	<version>0.5.1</version>
+	<name>shadow-device</name>
+	<packaging>jar</packaging>
+	<description>device message generator</description>
+	
+	<properties>
+		<java.version>1.8</java.version>
+		<repository.url>http://10.101.101.192:28081/repository/hura-repo/</repository.url>
+		<maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format>
+		<install.local.dir>${basedir}/target/${project.name}</install.local.dir>
+		<project.build.directory>${basedir}/target</project.build.directory>
+		<lib.dir>lib</lib.dir>
+		<package.jar.name>${project.artifactId}</package.jar.name>
+		<!--suppress UnresolvedMavenProperty -->
+		<build.number>${default.buildnumber}.default</build.number>
+		<created.group>avengers.herit</created.group>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<profile.id>local</profile.id>
+				<package.install.path>${basedir}/target</package.install.path>
+				<package.jar.version>${version}</package.jar.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profile.id>dev</profile.id>
+				<package.install.path>${basedir}/target</package.install.path>
+				<package.jar.version>${version}</package.jar.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profile.id>prod</profile.id>
+				<package.install.path>${basedir}/target</package.install.path>
+				<package.jar.version>${version}</package.jar.version>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<finalName>${package.jar.name}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin><!-- create version.info -->
+				<groupId>ru.yaal.maven</groupId>
+				<artifactId>write-text-files-maven-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<charset>UTF-8</charset>
+					<files>
+						<file>
+							<path>${package.install.path}/${project.artifactId}_${package.jar.version}.info</path>
+							<lines>
+								<line>===PACKAGE PROPERTIES ===</line>
+								<line>Name: ${project.name}</line>
+								<line>ArtifactId: ${project.artifactId}</line>
+								<line>Version: ${package.jar.version}</line>
+								<line>PackageFileName: ${package.jar.name}.${packaging}</line>
+								<line>Description: ${description}</line>
+								<line>ProfileId: ${profile.id}</line>
+								<line>BuildNumber: ${build.number}</line>
+								<!--suppress UnresolvedMavenProperty -->
+								<line>BuildTime: ${current.time}</line>
+								<line>BuildBy: ${created.group}</line>
+							</lines>
+						</file>
+					</files>
+				</configuration>
+				<executions>
+					<execution>
+						<id>write-text-files</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>write-text-files</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>timestamp-property</id>
+						<goals>
+							<goal>timestamp-property</goal>
+						</goals>
+						<configuration>
+							<name>current.time</name>
+							<pattern>yyyy-MM-dd HH:mm:ss</pattern>
+							<timeZone>Asia/Seoul</timeZone>
+						</configuration>
+					</execution>
+					<execution>
+						<id>buildtime-property</id>
+						<goals>
+							<goal>timestamp-property</goal>
+						</goals>
+						<configuration>
+							<name>default.buildnumber</name>
+							<pattern>yyyyMMdd.HHmmss</pattern>
+							<timeZone>Asia/Seoul</timeZone>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- For Spring SonarQube -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>2020.0.1</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.1.4</version>
+		</dependency>
+
+		<!-- mariaDB -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- PostgreSql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- 모니터링 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-jackson</artifactId>
+		</dependency>
+	</dependencies>
+
+</project>

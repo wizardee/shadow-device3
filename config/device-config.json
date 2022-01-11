@@ -1,0 +1,64 @@
+{
+  "devices": [
+    {
+      "device_id": "HERIT-HG2000E-202106291151",
+      "vdevice_id": "v-1ad4a22beea34fbf9566d8422472d3e3",
+      "instance_ids": [
+        "702201",
+        "702202",
+        "702203"
+      ],
+      "object_ids": [
+        "300",
+        "310",
+        "320"
+      ],
+      "default_value": "1000"
+    },
+    {
+      "device_id": "HERIT-HG2000E-202106291148",
+      "vdevice_id": "v-e195cac6b1a74076be173518b6623337",
+      "instance_ids": [
+        "1101503",
+        "1101502",
+        "1101501"
+      ],
+      "object_ids": [
+        "300",
+        "310",
+        "320"
+      ],
+      "default_value": "700"
+    },
+    {
+      "device_id": "HERIT-HG2000E-202106291145",
+      "vdevice_id": "v-e6a0f303de494e27ab8be55446932212",
+      "instance_ids": [
+        "101103",
+        "101102",
+        "101101"
+      ],
+      "object_ids": [
+        "300",
+        "310",
+        "320"
+      ],
+      "default_value": "400"
+    },
+    {
+      "device_id": "HERIT-HG2000E-202107281312",
+      "vdevice_id": "v-317aab30ef5a11eb83d2a923fb734dea",
+      "instance_ids": [
+        "101103",
+        "101102",
+        "101101"
+      ],
+      "object_ids": [
+        "300",
+        "310",
+        "320"
+      ],
+      "default_value": "200"
+    }
+  ]
+}

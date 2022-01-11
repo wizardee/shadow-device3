@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.herit.ami.features.stat.repository.postgresql.IotDeviceStatusMonthStatisticRepository">
+
+    <select id="selectMonthStatistics" resultMap="resultMonthStats">
+        SELECT
+               STAT_DATE, DEVICE_ID, RESOURCE_URI,
+               OBJECT_ID, INSTANCE_ID, RESOURCE_ID, RESOURCE_NAME,
+               STAT_TYPE, START_VALUE, PREVIOUS_VALUE, STAT_VALUE,
+               CREATE_TIME, UPDATE_TIME
+		FROM IOT_DEVICE_STATUS_MONTH_STATISTIC 
+		WHERE STAT_DATE >= NOW() - INTERVAL '1 month';
+    </select>
+    <resultMap id="resultMonthStats" type="net.herit.ami.features.stat.dto.entity.IotDeviceStatusMonthStatisticEntity">
+        <result property="deviceId" column="DEVICE_ID" />
+        <result property="resourceUri" column="RESOURCE_URI" />
+        <result property="objectId" column="OBJECT_ID" />
+        <result property="instanceId" column="INSTANCE_ID" />
+        <result property="resourceId" column="RESOURCE_ID" />
+        <result property="resourceName" column="RESOURCE_NAME" />
+        <result property="statType" column="STAT_TYPE" />
+        <result property="startValue" column="START_VALUE" />
+        <result property="previousValue" column="PREVIOUS_VALUE" />
+        <result property="statValue" column="STAT_VALUE" />
+        <result property="statDate" column="STAT_DATE" />
+        <result property="createTime" column="CREATE_TIME" />
+        <result property="updateTime" column="UPDATE_TIME" />
+    </resultMap>
+
+</mapper>

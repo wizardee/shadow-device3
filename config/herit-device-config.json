@@ -1,0 +1,40 @@
+{
+  "sites": [
+    {
+      "name": "전기저금통 시즌2-상용",
+      "url": "http://piggybank2.heviton.com:18080/api/v1/event/status",
+      "devices": [
+        {
+          "device_id": "HERIT-HG2000E-GE100000064",
+          "vdevice_id": "v-1ad4a22beea34fbf9566d8422472d3e3",
+          "instance_ids": [
+            "702201",
+            "702202",
+            "702203"
+          ],
+          "object_ids": [
+            "300",
+            "310",
+            "320"
+          ],
+          "default_value": "10"
+        },
+        {
+          "device_id": "HERIT-HG2000E-GE100000067",
+          "vdevice_id": "v-102329cae118b8854db0d8e2bac402ee",
+          "instance_ids": [
+            "1101503",
+            "1101502",
+            "1101501"
+          ],
+          "object_ids": [
+            "300",
+            "310",
+            "320"
+          ],
+          "default_value": "20"
+        }
+      ]
+    }
+  ]
+}
